@@ -10,6 +10,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+
+import java.util.Date;
 
 @SpringBootTest
 class RedisTemplateApplicationTests {
@@ -18,6 +22,9 @@ class RedisTemplateApplicationTests {
 
     @Autowired
     private RedisUtil redisUtil;
+
+    @Autowired
+    private JavaMailSender javaMailSender;
 
     @Test
     void contextLoads() {
@@ -54,5 +61,20 @@ class RedisTemplateApplicationTests {
     void test2(){
         redisUtil.set("test", "田佳鑫");
         System.out.println(redisUtil.get("test"));
+    }
+
+
+
+    @Test
+    public void sendSimpleMail() {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setSubject("这是一封测试邮件");
+        message.setFrom("443016895@qq.com");
+        message.setTo("tianjx0722@gmail.com");
+//        message.setCc("37xxxxx37@qq.com");
+//        message.setBcc("14xxxxx098@qq.com");
+        message.setSentDate(new Date());
+        message.setText("这是测试邮件的正文");
+        javaMailSender.send(message);
     }
 }
